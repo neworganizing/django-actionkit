@@ -11,7 +11,7 @@ class _akit_model(models.Model):
     """
     
     #akit = akit_manager()
-    objects = akitdb_manager()
+    #objects = akitdb_manager()
     
     class Meta:
         abstract = True

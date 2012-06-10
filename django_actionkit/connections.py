@@ -4,23 +4,23 @@
 class AKRouter(object):
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'ak_database':
-            return 'remote'
+        if model._meta.app_label == 'django_actionkit':
+            return 'actionkit'
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'ak_database':
-            return 'remote'
+        if model._meta.app_label == 'django_actionkit':
+            return 'actionkit'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == 'ak_database':
+        if obj1._meta.app_label == 'django_actionkit':
             return True
         return None
 
     def allow_syncdb(self, db, model):
-        if db == 'remote':
-            return model._meta.app_label == 'ak_database'
+        if db == 'actionkit':
+            return model._meta.app_label == 'django_actionkit'
         elif model._meta.app_label == 'akit':
             return False
         return None

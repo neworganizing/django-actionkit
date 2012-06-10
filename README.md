@@ -10,6 +10,7 @@ Basic Information
 
 You can read data from the ORM using the basic objects manager. Clients are usually unable to write to the database, so don't try to use the objects manager to make any changes unless you have extra permissions. Eventually the REST or XML-RPC API will be implemented in its own manager.
 
+Make sure that you have your ActionKit database is setup under the name 'actionkit'
 
 Example
 -------
