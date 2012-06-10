@@ -13,7 +13,7 @@ You can read data from the ORM using the basic objects manager. Clients are usua
 Example
 -------
 
-Make sure that you have your ActionKit database is setup under the name 'actionkit'. Like this
+Make sure that you have your ActionKit database is setup under the name 'actionkit' and add our database router to your settings file. Like this:
 
     DATABASES = {
         'actionkit': {
@@ -25,6 +25,10 @@ Make sure that you have your ActionKit database is setup under the name 'actionk
             'PORT': '',
         }
     }
+    
+    DATABASE_ROUTERS = (
+        'django_actionkit.connections.AKRouter',
+    )
 
 Then to list the first names of all users with the last name "Smith" (could be a long list) use this code
 
