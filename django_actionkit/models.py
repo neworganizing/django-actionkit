@@ -7,7 +7,7 @@ from django_actionkit.managers import akit_manager, akitdb_manager
 class _akit_model(models.Model):
     """
         The ActionKit DB is read only, we need to use the XML-RPC and/or REST interface to do anything
-        Eventually we should replicate these functions using the API. For now we'll just throw a custom exception
+        Eventually we should replicate these functions using the API.
     """
     
     #akit = akit_manager()
