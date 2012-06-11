@@ -10,10 +10,10 @@ Basic Information
 
 You can read data from the ORM using the basic objects manager. Clients are usually unable to write to the database, so don't try to use the objects manager to make any changes unless you have extra permissions. The eventual goal is to have the REST or XML-RPC API implemented in its own manager.
 
-Example
--------
+Instructions
+------------
 
-Make sure that you have your ActionKit database is setup under the name 'actionkit' and add our database router to your settings file. Like this:
+Add 'django_actionkit' to your installed apps. Make sure that you have your ActionKit database is setup under the name 'actionkit' and add our database router to your settings file. Like this:
 
     DATABASES = {
         'actionkit': {
@@ -31,6 +31,8 @@ Make sure that you have your ActionKit database is setup under the name 'actionk
     )
 
 Then to list the first names of all users with the last name "Smith" (could be a long list) use this code
+
+    from django_actionkit.models import CoreUser
 
     all_smiths = CoreUser.objects.filter(last_name="Smith")
     for user in all_smiths:
