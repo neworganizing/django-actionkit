@@ -355,16 +355,16 @@ class CmsUploadedfile(_akit_model):
 class CoreAction(_akit_model):
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    user = models.ForeignKey('CoreUser')
-    mailing = models.ForeignKey('CoreMailing', null=True, blank=True)
+    user = models.ForeignKey('CoreUser', related_name='actions')
+    mailing = models.ForeignKey('CoreMailing', related_name='actions', null=True, blank=True)
     page = models.ForeignKey('CorePage')
     link = models.IntegerField(null=True, blank=True)
     source = models.CharField(max_length=765)
     opq_id = models.CharField(max_length=765)
     created_user = models.IntegerField()
     subscribed_user = models.IntegerField()
-    referring_user = models.ForeignKey('CoreUser', null=True, blank=True)
-    referring_mailing = models.ForeignKey('CoreMailing', null=True, blank=True)
+    referring_user = models.ForeignKey('CoreUser', related_name='referred_actions', null=True, blank=True)
+    referring_mailing = models.ForeignKey('CoreMailing', related_name='referred_actions', null=True, blank=True)
     taf_emails_sent = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=765)
     
@@ -834,12 +834,12 @@ class CoreMailing(_akit_model):
     target_group_from_landing_page = models.IntegerField()
     winning_subject = models.ForeignKey('CoreMailingsubject', null=True, blank=True)
     requested_proofs = models.IntegerField(null=True, blank=True)
-    submitter = models.ForeignKey('AuthUser', null=True, blank=True)
+    submitter = models.ForeignKey('AuthUser', related_name='mailings_submitted', null=True, blank=True)
     scheduled_for = models.DateTimeField(null=True, blank=True)
     scheduled_by = models.ForeignKey('AuthUser', null=True, blank=True)
     queue_task_id = models.CharField(max_length=765, blank=True)
     queued_at = models.DateTimeField(null=True, blank=True)
-    queued_by = models.ForeignKey('AuthUser', null=True, blank=True)
+    queued_by = models.ForeignKey('AuthUser', related_name='mailings_queued', null=True, blank=True)
     expected_send_count = models.IntegerField(null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
     finished_at = models.DateTimeField(null=True, blank=True)
@@ -852,8 +852,8 @@ class CoreMailing(_akit_model):
     rate = models.FloatField(null=True, blank=True)
     progress = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=765, blank=True)
-    includes = models.ForeignKey('CoreMailingtargeting', null=True, blank=True)
-    excludes = models.ForeignKey('CoreMailingtargeting', null=True, blank=True)
+    includes = models.ForeignKey('CoreMailingtargeting', related_name='mailings_included', null=True, blank=True)
+    excludes = models.ForeignKey('CoreMailingtargeting', related_name='mailings_excluded', null=True, blank=True)
     limit = models.IntegerField(null=True, blank=True)
     sort_by = models.CharField(max_length=96, blank=True)
     pid = models.IntegerField(null=True, blank=True)
@@ -1139,7 +1139,7 @@ class CorePageTags(_akit_model):
         db_table = u'core_page_tags'
 
 class CorePagefield(_akit_model):
-    parent = models.ForeignKey('CorePage')
+    parent = models.ForeignKey('CorePage', related_name='custom_fields')
     name = models.ForeignKey('CoreAllowedpagefield', db_column='name')
     value = models.TextField()
     class Meta(_akit_model.Meta):
@@ -1340,10 +1340,10 @@ class CoreRedirectpage(_akit_model):
         db_table = u'core_redirectpage'
 
 class CoreSavedquerylog(_akit_model):
-    mailing = models.ForeignKey('CoreMailing')
+    mailing = models.ForeignKey('CoreMailing', related_name='saved_query')
     action = models.CharField(max_length=765)
     reason = models.CharField(max_length=765)
-    triggered_by = models.ForeignKey('CoreMailing', null=True, blank=True)
+    triggered_by = models.ForeignKey('CoreMailing', related_name='saved_query_log_entry', null=True, blank=True)
     created_at = models.DateTimeField()
     process_id = models.IntegerField(null=True, blank=True)
     targeting_version = models.IntegerField()
