@@ -1670,8 +1670,16 @@ class CoreUser(_akit_model):
         actionkit = xmlrpclib.Server('http://%s:%s@%s/api/' % ( settings.AK_USER, settings.AK_PASS, settings.AK_SERVER))
         return actionkit.User.create(user_data)
     
+    # Return Fields As A Dictionary
+    def custom_fields(self):
+        fields = {}
+        for x in CoreUserfield.objects.filter(parent_id=self):
+            fields[x.name_id] = x.value
+        return fields
+    
+    # Return Userfields As A Queryset
     def fields(self):
-        return CoreUserfield.objects.select_related().filter(parent_id=self)
+        return CoreUserfield.objects.filter(parent_id=self)
     
     def actions(self):
         return CoreAction.objects.select_related().filter(user_id=self)
