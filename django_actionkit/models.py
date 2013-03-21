@@ -3,8 +3,6 @@
 
 from django.db import models
 from django_actionkit.managers import akit_manager, akitdb_manager
-import xmlrpclib
-import settings
         
 class _akit_model(models.Model):
     """
@@ -1645,30 +1643,6 @@ class CoreUser(_akit_model):
     source = models.CharField(max_length=765)
     lang = models.ForeignKey('CoreLanguage', null=True, blank=True)
     rand_id = models.IntegerField()
-    
-    def save(self):
-        user_data = {
-            'akid': str(self.id),
-            'address1': str(self.address1),
-            'address2': str(self.address2),
-            'city': str(self.city),
-            'country': str(self.country),
-            'email': str(self.email),
-            'first_name': str(self.first_name),
-            'last_name': str(self.last_name),
-            'middle_name': str(self.middle_name),
-            'plus4': str(self.plus4),
-            'postal': str(self.postal),
-            'prefix': str(self.prefix),
-            'region': str(self.region),
-            'source': str(self.source),
-            'state': str(self.state),
-            'suffix': str(self.suffix),
-            'zip': str(self.zip)
-        }
-        user_data = dict((k,v) for k,v in user_data.iteritems() if v is not '')
-        actionkit = xmlrpclib.Server('http://%s:%s@%s/api/' % ( settings.AK_USER, settings.AK_PASS, settings.AK_SERVER))
-        return actionkit.User.create(user_data)
     
     # Return Fields As A Dictionary
     def custom_fields(self):

@@ -31,37 +31,13 @@ Add 'django_actionkit' to your installed apps. Make sure that you have your Acti
         'django_actionkit.connections.AKRouter',
     )
 
-Then to list the first names of all users with the last name "Smith" (could be a long list) use this code
+Then to list the first names of all users with the last name "Smith" use this code
 
     from django_actionkit.models import CoreUser
 
     all_smiths = CoreUser.objects.filter(last_name="Smith")
     for user in all_smiths:
         print user.first_name
-
-If you want to interact via the XML-RPC API you'll need to put your login information in your settings file
-
-    AK_USER = 'actionkitusername'
-    AK_PASS = 'actionkitpassword'
-    AK_SERVER = 'act.yourdomain.com'
-    
-Then to write a user record you'd use
-
-    from django_actionkit.models import CoreUser
-    
-    joe = CoreUser()
-    joe.email = 'joe@yourdomain.com'
-    joe.first_name = 'Joe'
-    joe.last_name = 'Smith'
-    joe.save()
-    
-To edit Joe's record you'd use
-
-    joe = CoreUser.objects.get(email='joe@yourdomain.com')
-    joe.last_name = 'Appleseed'
-    joe.save()
-
-All write actions return the standard API response given by ActionKit
 
 **Remember: Querying the database via the objects model pulls from a MySQL slave. 
 There may be a slight delay between data being submitted to ActionKit (via the API or a user action) and that data appearing in the client database. 
